@@ -105,24 +105,24 @@ public class TpCommand implements CommandExecutor {
 			List<Material> blacklist = Settings.material_blacklist;
 			
 			List<Boolean> userInRange = new ArrayList<Boolean>();
-			
-			if (!blacklist.contains(block.getType())) {
-				if (loc.add(0, 1, 0).getBlock().getType() == Material.AIR && loc.add(0, 2, 0).getBlock().getType() == Material.AIR) {
-					for (int i = 0; i > maxTries; i++) {
+			for (int i = 0; i > maxTries; i++) {
+				if (!blacklist.contains(block.getType())) {
+					if (loc.add(0, 1, 0).getBlock().getType() == Material.AIR && loc.add(0, 2, 0).getBlock().getType() == Material.AIR) {
 						userInRange.clear();
 						for (Player p : Bukkit.getOnlinePlayers()) {
 							userInRange.add(p.getLocation().distance(loc) <= minDistance);
 						}
 						if (!userInRange.contains(true)) {
+							b = false;
 							return loc;
 						}
 						//this area was not free...
 					}
-					//no free area found in max trys
+					//not enough space
 				}
-				//not enough space
+				//block not safe
 			}
-			//block not safe
+			//no free area found in max trys
 		}
 		return null;
 	}
