@@ -1,0 +1,20 @@
+#Safe Random Teleport Config File
+#this is yaml, no tab use here!
+settings:
+  user_perms: zf.srtp.user
+  admin_perms: zf.srtp.admin
+  max_distance: 100
+  min_distance: 10
+  player_distance: 10
+  max_tries: 10
+  material_blacklist:
+  - LAVA
+  - FIRE
+  - MAGMA_BLOCK
+  - VOID_AIR
+  - CACTUS
+lang:
+  prefix: '&9SRTP &8>> &f'
+  no_perms: ''
+  success: 'Teleport erfolgreich!'
+  failed: 'Teleport fehlgeschlagen...'

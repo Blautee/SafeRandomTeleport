@@ -1,0 +1,10 @@
+name: SafeRandomTeleport
+version: 0.1
+author: Blautee, Trebtee
+api-version: 1.17
+
+main: de.trebtee.srtp.main.Main
+description: A pvp-compatible, safe random teleport plugin!
+commands:
+  srtp:
+    description: Safe Random Teleport
