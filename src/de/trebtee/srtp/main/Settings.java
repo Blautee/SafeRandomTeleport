@@ -44,8 +44,8 @@ public class Settings {
 		
 		lang_prefix = applyColorCodeTranslate("lang.prefix");
 		lang_no_perms = applyColorCodeTranslate("lang.no_perms");
-		lang_success = applyColorCodeTranslate("lang.lang_success");
-		lang_failed = applyColorCodeTranslate("lang.lang_failed");
+		lang_success = applyColorCodeTranslate("lang.success");
+		lang_failed = applyColorCodeTranslate("lang.failed");
 	}
 	
 	public static String applyColorCodeTranslate(String s) {

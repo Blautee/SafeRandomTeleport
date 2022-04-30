@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 public class TpCommand implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command label, String command, String[] args) {
+	public boolean onCommand(CommandSender sender, Command label, String command, String[] args) {		
 		String p = Settings.lang_prefix;
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
@@ -24,6 +24,7 @@ public class TpCommand implements CommandExecutor {
 				if (player.hasPermission(Settings.admin_perms)) {
 					if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 						Settings.reloadConfig();
+						return true;
 					}
 				}
 				Location loc = generateLocation(player);
@@ -105,24 +106,31 @@ public class TpCommand implements CommandExecutor {
 			List<Material> blacklist = Settings.material_blacklist;
 			
 			List<Boolean> userInRange = new ArrayList<Boolean>();
-			for (int i = 0; i > maxTries; i++) {
-				if (!blacklist.contains(block.getType())) {
+			for (int i = 0; i < maxTries; i++) {
+				if (!blacklist.contains(block.getType()) || !blacklist.contains(loc.subtract(0, 1, 0).getBlock().getType())) {
 					if (loc.add(0, 1, 0).getBlock().getType() == Material.AIR && loc.add(0, 2, 0).getBlock().getType() == Material.AIR) {
 						userInRange.clear();
 						for (Player p : Bukkit.getOnlinePlayers()) {
-							userInRange.add(p.getLocation().distance(loc) <= minDistance);
+							if (!player.getName().equalsIgnoreCase(p.getName())) {
+								userInRange.add(p.getLocation().distance(loc) <= minDistance);
+							}
 						}
 						if (!userInRange.contains(true)) {
 							b = false;
 							return loc;
+						} else {
+							//this area was not free...
 						}
-						//this area was not free...
+					} else {
+						//not enough space
 					}
-					//not enough space
+				} else {
+					//block not safe
 				}
-				//block not safe
 			}
 			//no free area found in max trys
+			b = false;
+			return null;
 		}
 		return null;
 	}
