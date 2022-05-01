@@ -8,8 +8,11 @@ settings:
   player_distance: 10
   max_tries: 10
   material_blacklist:
+  - WATER
   - LAVA
   - FIRE
+  - COBWEB
+  - TNT
   - MAGMA_BLOCK
   - VOID_AIR
   - CACTUS

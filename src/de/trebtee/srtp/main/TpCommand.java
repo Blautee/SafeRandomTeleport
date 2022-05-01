@@ -13,6 +13,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class TpCommand implements CommandExecutor {
 
@@ -34,7 +35,7 @@ public class TpCommand implements CommandExecutor {
 					player.sendMessage(p + Settings.lang_failed);
 					return false;
 				} else {
-					player.teleport(loc);
+					player.teleport(loc.add(.5, -2, .5), TeleportCause.PLUGIN);
 					player.sendMessage(p + Settings.lang_success);
 					return true;
 				}
@@ -59,7 +60,7 @@ public class TpCommand implements CommandExecutor {
 						player.sendMessage(p + Settings.lang_failed);
 						return false;
 					} else {
-						player.teleport(loc);
+						player.teleport(loc.add(.5, -2, .5), TeleportCause.PLUGIN);
 						sender.sendMessage(p + "srtp success via console!");
 						player.sendMessage(p + Settings.lang_failed);
 						return true;
@@ -77,6 +78,8 @@ public class TpCommand implements CommandExecutor {
 	public Location generateLocation(Player player) {
 		int x = 0;
 		int z = 0;
+		
+		int y = 0;
 
 		int minX = Settings.min_disatnce;
 		int minZ = Settings.min_disatnce;
@@ -90,9 +93,9 @@ public class TpCommand implements CommandExecutor {
 		Random random = new Random();
 		List<Material> blacklist = Settings.material_blacklist;
 		List<Boolean> userInRange = new ArrayList<>();
-
+		
 		for (int i = 0; i < maxTries; i++) {
-
+			
 			x = random.nextInt(maxX - minX) + minX;
 			if (random.nextBoolean()) {
 				x = -x;
@@ -102,13 +105,15 @@ public class TpCommand implements CommandExecutor {
 			if (random.nextBoolean()) {
 				z = -z;
 			}
-
-			Location loc = new Location(player.getWorld(), x, player.getWorld().getHighestBlockYAt(x, z), z);
+			
+			y = player.getWorld().getHighestBlockYAt(x, z);
+			
+			Location loc = new Location(player.getWorld(), x, y, z);
 
 			Block block = loc.getBlock();
 
 			if (!blacklist.contains(block.getType()) || !blacklist.contains(loc.subtract(0, 1, 0).getBlock().getType())) {
-				if (loc.add(0, 1, 0).getBlock().getType() == Material.AIR && loc.add(0, 2, 0).getBlock().getType() == Material.AIR) {
+				if (loc.add(0, 2, 0).getBlock().getType() == Material.AIR && loc.add(0, 1, 0).getBlock().getType() == Material.AIR) {
 					userInRange.clear();
 					for (Player p : Bukkit.getOnlinePlayers()) {
 						if (!player.getName().equalsIgnoreCase(p.getName())) {
@@ -116,7 +121,7 @@ public class TpCommand implements CommandExecutor {
 						}
 					}
 					if (!userInRange.contains(true)) {
-						Bukkit.getLogger().log(Level.INFO, "Random Location for " + player.getName() + "found in " + i + "tries!");
+						Bukkit.getLogger().log(Level.INFO, "Random Location for " + player.getName() + " found in " + i + " tries!");
 						return loc;
 					} else {
 						//this area was not free...
@@ -128,7 +133,6 @@ public class TpCommand implements CommandExecutor {
 				//block not safe
 			}
 			//no free area found in max trys
-			return null;
 		}
 		return null;
 	}
