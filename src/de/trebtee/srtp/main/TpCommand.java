@@ -3,6 +3,7 @@ package de.trebtee.srtp.main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,7 +17,7 @@ import org.bukkit.entity.Player;
 public class TpCommand implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command label, String command, String[] args) {		
+	public boolean onCommand(CommandSender sender, Command label, String command, String[] args) {
 		String p = Settings.lang_prefix;
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
@@ -71,65 +72,62 @@ public class TpCommand implements CommandExecutor {
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unused") //why? how?
 	public Location generateLocation(Player player) {
 		int x = 0;
 		int z = 0;
-		
+
 		int minX = Settings.min_disatnce;
 		int minZ = Settings.min_disatnce;
-		
+
 		int maxX = Settings.max_distance;
 		int maxZ = Settings.max_distance;
-		
+
 		int minDistance = Settings.min_player_distance;
 		int maxTries = Settings.max_tries;
-		
-		boolean b = true;
-		
-		while (b) {
-			Random random = new Random();
+
+		Random random = new Random();
+		List<Material> blacklist = Settings.material_blacklist;
+		List<Boolean> userInRange = new ArrayList<>();
+
+		for (int i = 0; i < maxTries; i++) {
+
 			x = random.nextInt(maxX - minX) + minX;
 			if (random.nextBoolean()) {
 				x = -x;
 			}
-			
+
 			z = random.nextInt(maxZ - minZ) + minZ;
 			if (random.nextBoolean()) {
 				z = -z;
 			}
-			
+
 			Location loc = new Location(player.getWorld(), x, player.getWorld().getHighestBlockYAt(x, z), z);
-			
+
 			Block block = loc.getBlock();
-			
-			List<Material> blacklist = Settings.material_blacklist;
-			
-			List<Boolean> userInRange = new ArrayList<Boolean>();
-			for (int i = 0; i < maxTries; i++) {
-				if (!blacklist.contains(block.getType()) || !blacklist.contains(loc.subtract(0, 1, 0).getBlock().getType())) {
-					if (loc.add(0, 1, 0).getBlock().getType() == Material.AIR && loc.add(0, 2, 0).getBlock().getType() == Material.AIR) {
-						userInRange.clear();
-						for (Player p : Bukkit.getOnlinePlayers()) {
-							if (!player.getName().equalsIgnoreCase(p.getName())) {
-								userInRange.add(p.getLocation().distance(loc) <= minDistance);
-							}
+
+			if (!blacklist.contains(block.getType()) || !blacklist.contains(loc.subtract(0, 1, 0).getBlock().getType())) {
+				if (loc.add(0, 1, 0).getBlock().getType() == Material.AIR && loc.add(0, 2, 0).getBlock().getType() == Material.AIR) {
+					userInRange.clear();
+					for (Player p : Bukkit.getOnlinePlayers()) {
+						if (!player.getName().equalsIgnoreCase(p.getName())) {
+							userInRange.add(p.getLocation().distance(loc) <= minDistance);
 						}
-						if (!userInRange.contains(true)) {
-							b = false;
-							return loc;
-						} else {
-							//this area was not free...
-						}
+					}
+					if (!userInRange.contains(true)) {
+						Bukkit.getLogger().log(Level.INFO, "Random Location for " + player.getName() + "found in " + i + "tries!");
+						return loc;
 					} else {
-						//not enough space
+						//this area was not free...
 					}
 				} else {
-					//block not safe
+					//not enough space
 				}
+			} else {
+				//block not safe
 			}
 			//no free area found in max trys
-			b = false;
 			return null;
 		}
 		return null;
