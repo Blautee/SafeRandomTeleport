@@ -13,7 +13,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class TpCommand implements CommandExecutor {
 
@@ -41,7 +40,7 @@ public class TpCommand implements CommandExecutor {
 					player.sendMessage(p + Settings.lang_failed);
 					return false;
 				} else {
-					player.teleport(loc.add(.5, -2, .5), TeleportCause.PLUGIN);
+					player.teleport(loc.add(.5, -2, .5));
 					player.sendMessage(p + Settings.lang_success);
 					return true;
 				}
@@ -65,7 +64,7 @@ public class TpCommand implements CommandExecutor {
 						player.sendMessage(p + Settings.lang_failed);
 						return false;
 					} else {
-						player.teleport(loc.add(.5, -2, .5), TeleportCause.PLUGIN);
+						player.teleport(loc.add(.5, -2, .5));
 						sender.sendMessage(p + "srtp success via console!");
 						player.sendMessage(p + Settings.lang_failed);
 						return true;
