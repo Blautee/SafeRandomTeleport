@@ -2,6 +2,8 @@ name: SafeRandomTeleport
 version: 0.1
 author: Blautee, Trebtee
 api-version: 1.17
+softdepend:
+ - Multiverse-Core
 
 main: de.trebtee.srtp.main.Main
 description: A pvp-compatible, safe random teleport plugin!
