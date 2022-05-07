@@ -3,6 +3,7 @@ package de.trebtee.srtp.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 
 import net.md_5.bungee.api.ChatColor;
@@ -18,11 +19,15 @@ public class Settings {
 	public static int max_tries;
 
 	public static List<Material> material_blacklist = new ArrayList<>();
+	
+	public static Location center;
 
 	public static String lang_prefix;
 	public static String lang_no_perms;
 	public static String lang_success;
 	public static String lang_failed;
+	public static String lang_reload;
+	public static String lang_center_set;
 
 
 	public static void reloadConfig() {
@@ -41,11 +46,14 @@ public class Settings {
 			}
 		}
 
-
+		center = Main.getPlugin().getConfig().getLocation("settings.center");
+		
 		lang_prefix = applyColorCodeTranslate("lang.prefix");
 		lang_no_perms = applyColorCodeTranslate("lang.no_perms");
 		lang_success = applyColorCodeTranslate("lang.success");
 		lang_failed = applyColorCodeTranslate("lang.failed");
+		lang_reload = applyColorCodeTranslate("lang.reload");
+		lang_center_set = applyColorCodeTranslate("lang.center_set");
 	}
 
 	public static String applyColorCodeTranslate(String s) {

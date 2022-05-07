@@ -7,6 +7,7 @@ settings:
   min_distance: 10
   player_distance: 10
   max_tries: 10
+  center: null
   material_blacklist:
   - WATER
   - LAVA
@@ -21,3 +22,5 @@ lang:
   no_perms: ''
   success: 'Teleport erfolgreich!'
   failed: 'Teleport fehlgeschlagen...'
+  reload: 'Reload durchgeführt!'
+  center_set: 'Mitte gesetzt!'

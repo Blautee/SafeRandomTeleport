@@ -26,12 +26,18 @@ public class TpCommand implements CommandExecutor {
 				if (player.hasPermission(Settings.admin_perms)) {
 					if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 						Settings.reloadConfig();
+						player.sendMessage(p + Settings.lang_reload);
+						return true;
+					} else if (args.length == 1 && args[0].equalsIgnoreCase("center")) {
+						Main.getPlugin().getConfig().set("settings.center", player.getLocation());
+						Main.getPlugin().saveConfig();
+						Settings.reloadConfig();
+						player.sendMessage(p + Settings.lang_center_set);
 						return true;
 					}
 				}
 				Location loc = generateLocation(player);
 				if (loc == null) {
-					//no adequate location found
 					player.sendMessage(p + Settings.lang_failed);
 					return false;
 				} else {
@@ -40,7 +46,6 @@ public class TpCommand implements CommandExecutor {
 					return true;
 				}
 			} else {
-				//no perms
 				if (!Settings.lang_no_perms.equalsIgnoreCase("")) {
 					player.sendMessage(p + Settings.lang_no_perms);
 				}
@@ -74,13 +79,18 @@ public class TpCommand implements CommandExecutor {
 		}
 	}
 
-	@SuppressWarnings("unused") //why? how?
 	public Location generateLocation(Player player) {
 		int x = 0;
 		int z = 0;
 		
 		int y = 0;
-
+		
+		Location center = Settings.center;
+		
+		if (center == null) {
+			center = new Location(player.getWorld(), 0, 100, 0);
+		}
+		
 		int minX = Settings.min_disatnce;
 		int minZ = Settings.min_disatnce;
 
@@ -100,11 +110,13 @@ public class TpCommand implements CommandExecutor {
 			if (random.nextBoolean()) {
 				x = -x;
 			}
+			x = center.getBlockX() + x;
 
 			z = random.nextInt(maxZ - minZ) + minZ;
 			if (random.nextBoolean()) {
 				z = -z;
 			}
+			z = center.getBlockZ() + z;
 			
 			y = player.getWorld().getHighestBlockYAt(x, z);
 			
