@@ -21,8 +21,8 @@ lang:
   feedback: true
   prefix: '&9SRTP &8>> &f'
   no_perms: ''
-  success: 'Teleport erfolgreich!'
-  failed: 'Teleport fehlgeschlagen...'
-  reload: 'Reload durchgeführt!'
-  center_set: 'Mitte gesetzt!'
+  success: '&aTeleport erfolgreich!'
+  failed: '&cTeleport fehlgeschlagen...'
+  reload: '&cReload durchgeführt!'
+  center_set: '&aMitte gesetzt!'
   wrong_usage: 'Falsche Verwendung!'

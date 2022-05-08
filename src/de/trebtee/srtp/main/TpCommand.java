@@ -35,6 +35,14 @@ public class TpCommand implements CommandExecutor {
 						return true;
 					}
 				}
+				if (args.length != 0) {
+					//wrong use
+					if (Settings.feedback) {
+						sender.sendMessage(p + Settings.lang_wrong_use);
+					}
+					return false;
+				}
+				
 				Location loc = generateLocation(player);
 				if (loc == null) {
 					if (Settings.feedback) {
@@ -59,6 +67,7 @@ public class TpCommand implements CommandExecutor {
 				Player player = Bukkit.getPlayer(args[0]);
 				if (player == null) {
 					//no such player
+					sender.sendMessage(p + "no such player...");
 					return false;
 				} else {
 					Location loc = generateLocation(player);
@@ -81,7 +90,7 @@ public class TpCommand implements CommandExecutor {
 			} else {
 				//wrong use
 				if (Settings.feedback) {
-					sender.sendMessage(Settings.lang_wrong_use);
+					sender.sendMessage(p + Settings.lang_wrong_use);
 				}
 				return false;
 			}
@@ -146,6 +155,7 @@ public class TpCommand implements CommandExecutor {
 						return loc;
 					} else {
 						//this area was not free...
+						
 					}
 				} else {
 					//not enough space
@@ -155,6 +165,7 @@ public class TpCommand implements CommandExecutor {
 			}
 			//no free area found in max trys
 		}
+		Bukkit.getLogger().log(Level.INFO, "No random Location found for " + player.getName() + "!");
 		return null;
 	}
 }
