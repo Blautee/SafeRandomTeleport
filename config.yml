@@ -18,9 +18,11 @@ settings:
   - VOID_AIR
   - CACTUS
 lang:
+  feedback: true
   prefix: '&9SRTP &8>> &f'
   no_perms: ''
   success: 'Teleport erfolgreich!'
   failed: 'Teleport fehlgeschlagen...'
   reload: 'Reload durchgeführt!'
   center_set: 'Mitte gesetzt!'
+  wrong_usage: 'Falsche Verwendung!'

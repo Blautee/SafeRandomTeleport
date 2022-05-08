@@ -21,6 +21,8 @@ public class Settings {
 	public static List<Material> material_blacklist = new ArrayList<>();
 	
 	public static Location center;
+	
+	public static boolean feedback;
 
 	public static String lang_prefix;
 	public static String lang_no_perms;
@@ -28,6 +30,7 @@ public class Settings {
 	public static String lang_failed;
 	public static String lang_reload;
 	public static String lang_center_set;
+	public static String lang_wrong_use;
 
 
 	public static void reloadConfig() {
@@ -48,12 +51,15 @@ public class Settings {
 
 		center = Main.getPlugin().getConfig().getLocation("settings.center");
 		
+		feedback = Main.getPlugin().getConfig().getBoolean("lang.feedback");
+		
 		lang_prefix = applyColorCodeTranslate("lang.prefix");
 		lang_no_perms = applyColorCodeTranslate("lang.no_perms");
 		lang_success = applyColorCodeTranslate("lang.success");
 		lang_failed = applyColorCodeTranslate("lang.failed");
 		lang_reload = applyColorCodeTranslate("lang.reload");
 		lang_center_set = applyColorCodeTranslate("lang.center_set");
+		lang_wrong_use = applyColorCodeTranslate("lang.wrong_usage");
 	}
 
 	public static String applyColorCodeTranslate(String s) {

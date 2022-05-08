@@ -37,11 +37,15 @@ public class TpCommand implements CommandExecutor {
 				}
 				Location loc = generateLocation(player);
 				if (loc == null) {
-					player.sendMessage(p + Settings.lang_failed);
+					if (Settings.feedback) {
+						player.sendMessage(p + Settings.lang_failed);
+					}
 					return false;
 				} else {
 					player.teleport(loc.add(.5, -2, .5));
-					player.sendMessage(p + Settings.lang_success);
+					if (Settings.feedback) {
+						player.sendMessage(p + Settings.lang_success);
+					}
 					return true;
 				}
 			} else {
@@ -61,18 +65,24 @@ public class TpCommand implements CommandExecutor {
 					if (loc == null) {
 						//no adequate location found
 						sender.sendMessage(p + "teleport fail via console!");
-						player.sendMessage(p + Settings.lang_failed);
+						if (Settings.feedback) {
+							player.sendMessage(p + Settings.lang_failed);
+						}
 						return false;
 					} else {
 						player.teleport(loc.add(.5, -2, .5));
-						sender.sendMessage(p + "teleport success via console!");
+						if (Settings.feedback) {
+							sender.sendMessage(p + "teleport success via console!");
+						}
 						player.sendMessage(p + Settings.lang_success);
 						return true;
 					}
 				}
 			} else {
 				//wrong use
-				sender.sendMessage("wrong srtp usage!");
+				if (Settings.feedback) {
+					sender.sendMessage(Settings.lang_wrong_use);
+				}
 				return false;
 			}
 		}
