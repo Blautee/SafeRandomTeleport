@@ -60,13 +60,13 @@ public class TpCommand implements CommandExecutor {
 					Location loc = generateLocation(player);
 					if (loc == null) {
 						//no adequate location found
-						sender.sendMessage(p + "srtp failed via console!");
+						sender.sendMessage(p + "teleport fail via console!");
 						player.sendMessage(p + Settings.lang_failed);
 						return false;
 					} else {
 						player.teleport(loc.add(.5, -2, .5));
-						sender.sendMessage(p + "srtp success via console!");
-						player.sendMessage(p + Settings.lang_failed);
+						sender.sendMessage(p + "teleport success via console!");
+						player.sendMessage(p + Settings.lang_success);
 						return true;
 					}
 				}
