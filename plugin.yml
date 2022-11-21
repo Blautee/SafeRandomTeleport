@@ -1,7 +1,7 @@
 name: SafeRandomTeleport
 version: 0.8
 author: Blautee, Trebtee
-api-version: 1.17
+api-version: 1.19
 softdepend:
  - Multiverse-Core
 

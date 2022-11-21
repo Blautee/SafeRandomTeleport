@@ -114,6 +114,8 @@ public class TpCommand implements CommandExecutor {
 
 		int maxX = Settings.max_distance;
 		int maxZ = Settings.max_distance;
+		
+		// TODO Check Worldborder, compare to max
 
 		int minDistance = Settings.min_player_distance;
 		int maxTries = Settings.max_tries;
@@ -147,7 +149,9 @@ public class TpCommand implements CommandExecutor {
 					userInRange.clear();
 					for (Player p : Bukkit.getOnlinePlayers()) {
 						if (!player.getName().equalsIgnoreCase(p.getName())) {
-							userInRange.add(p.getLocation().distance(loc) <= minDistance);
+						    if (p.getWorld().getName().equals(player.getWorld().getName())) {
+						        userInRange.add(p.getLocation().distance(loc) <= minDistance);
+						    }
 						}
 					}
 					if (!userInRange.contains(true)) {
@@ -163,7 +167,7 @@ public class TpCommand implements CommandExecutor {
 			} else {
 				//block not safe
 			}
-			//no free area found in max trys
+			//no free area found in max tries
 		}
 		Bukkit.getLogger().log(Level.INFO, "No random Location found for " + player.getName() + "!");
 		return null;
